@@ -159,5 +159,3 @@ ResearchTask {
   createdAt: Date;
 }
 ```
-
-Bạn có thể copy block này làm README, chỉ cần chỉnh lại tên repo / logo / link OpenClaw theo setup cụ thể của bạn.
