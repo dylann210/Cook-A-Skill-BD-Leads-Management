@@ -1,161 +1,87 @@
+BD Agent — Lead Research & Telegram Outreach Skill
+BD Agent is a Claude Skill that turns a campaign brief into an auto‑researched, qualified lead list plus personalized Telegram outreach drafts. It’s built for BD / Partnerships who want to go from idea → people → messages in a single run, without writing code or setting up infrastructure.
 
-# BD Agent
+🔍 What It Does
+BD Agent runs a deterministic pipeline:
 
-**AI Business Development Agent for Lead Research, CRM & Outreach**
+Understand the campaign
 
-BD Agent helps you:
+Parses your brief to extract ICP, key topics (e.g., Polymarket / prediction markets), tone, languages, and goals.
 
-1. **Research** leads and enrich them with insights.  
-2. **Manage** leads in a lightweight, insight‑driven CRM.  
-3. **Reach out** automatically with personalized messages (Telegram in MVP, multi‑platform later). [crmchat](https://crmchat.ai)
+Auto‑discover leads (default path)
 
-> **MVP:** Telegram‑only outreach, orchestrated by **OpenClaw** agents  
-> **Future:** Multi‑platform (Telegram, X, LinkedIn, Email, …) [techcrunch](https://techcrunch.com/2026/01/30/openclaws-ai-assistants-are-now-building-their-own-social-network/)
+Uses web search to find relevant KOLs / founders / partners around the specified niche.
 
-***
+Extracts topics, language, and personality from public bios and content.
 
-## Features
+Score & tier leads
 
-### 1. Research: Lead Discovery & Insights
+Scores each lead on:
 
-- Create **research tasks** describing what kind of leads you want (e.g. “50 crypto KOLs talking about Polymarket”).  
-- Provide candidate profiles/handles; an OpenClaw‑powered agent:
-  - Reads public info (bio / sample posts).  
-  - Generates topics of interest, tone/personality, and a short insight summary for each lead.  
-  - Suggests tags like `["KOL", "Crypto", "Polymarket"]`. [crawleyagent](https://crawleyagent.com)
+Relevance (topic match)
 
-### 2. Lead Management: Insight‑Driven Mini CRM
+Influence (reach / role)
 
-- Central **Lead Database** with:
-  - Name, Telegram handle, source (research/manual).  
-  - Status: `NEW`, `RESEARCHED`, `CONTACTED`, `REPLIED`, `QUALIFIED`, `CLOSED`.  
-  - Topics & interests.  
-  - Personality notes and free‑form internal notes. [themindreader](https://themindreader.ai/blog-insights/ai-in-customer-relationship-management)
-- **Lead list view** with filters (status, topic, source) and last contacted/replied.  
-- **Lead detail view** with profile, insight summary, notes, and Telegram message timeline.
+Fit (tone & angle alignment)
 
-### 3. Outreach: Personalized Messaging Agent (Telegram MVP)
+Assigns Tier A / B / C with short evidence‑based notes.
 
-- Connect your **Telegram** account/bot.  
-- Use an OpenClaw agent to run **outreach campaigns** for segments from your lead DB:
-  - One‑off broadcasts (e.g. New Year greetings).  
-  - Simple 2‑step sequences (initial + follow‑up). [crmchat](https://crmchat.ai/telegram-outreach)
-- AI‑assisted templates:
-  - Variables: `{first_name}`, `{topics}`, `{personality}`, `{custom_note}`.  
-  - Tone adaptation based on personality (casual vs formal). [leadspicker](https://www.leadspicker.com/ai-sales-tools/humanatic)
-- Safe sending:
-  - Daily send limit, time windows, random delays.  
-- Automatic updates:
-  - Sent → status to `CONTACTED`.  
-  - Reply detected → status to `REPLIED` and logged in the timeline.
+Draft Telegram DMs
 
-***
+Generates per‑lead DM drafts for Tier A/B:
 
-## Tech Stack (MVP)
+References real topics they talk about.
 
-- **Agent Orchestration:** OpenClaw (AI agent framework to run research & outreach workflows) [en.wikipedia](https://en.wikipedia.org/wiki/OpenClaw)
-- **Frontend:** React, TypeScript, Tailwind CSS  
-- **Backend:** Node.js, Express  
-- **Database:** PostgreSQL or SQLite  
-- **Messaging:** Telegram Bot API  
-- **LLM Provider:** Claude/OpenAI (called from OpenClaw tools for insights & personalization)
+Adapts tone to your campaign + their style.
 
-> Next versions reuse the same OpenClaw agent layer to add X, LinkedIn and email channels.
+Aligns CTA with your stated goal (call, feedback, post…).
 
-***
+Return one Markdown report
 
-## Project Structure
+Campaign summary
 
-```text
-├── client/                         # Frontend (React + TypeScript + Tailwind)
-│   └── src/
-│       ├── components/
-│       ├── pages/
-│       ├── features/
-│       │   ├── research/           # Research tasks & enrichment UI
-│       │   ├── leads/              # Lead list, detail, notes
-│       │   └── campaigns/          # Telegram campaigns & stats
-│       └── utils/
-│
-├── server/                         # Backend (Node.js + Express + OpenClaw)
-│   └── src/
-│       ├── routes/
-│       ├── controllers/
-│       ├── services/
-│       │   ├── researchAgent/      # OpenClaw workflows for research
-│       │   ├── leadService/        # Lead CRUD & pipeline logic
-│       │   └── telegramOutreach/   # OpenClaw workflows for campaigns
-│       ├── integrations/           # Telegram, LLM, future X/LinkedIn
-│       ├── jobs/                   # Background workers (campaign queues)
-│       ├── models/                 # DB schemas
-│       └── utils/
-│
-└── README.md
-```
+Lead scorecard table
 
-***
+DM drafts grouped by tier
 
-## Core Data Models (Conceptual)
+All logic is specified in spec.md.
 
-```ts
-Lead {
-  id: string;
-  name?: string;
-  telegramHandle: string;
-  source: 'RESEARCH_TASK' | 'MANUAL';
+🧑‍💼 Who It’s For
+BD / Partnerships / Founders running GTM or collab campaigns.
 
-  status: 'NEW' | 'RESEARCHED' | 'CONTACTED' | 'REPLIED' | 'QUALIFIED' | 'CLOSED';
+Non‑technical teammates who want a reusable research + outreach workflow inside Claude Projects.
 
-  topics: string[];
-  personality?: string;
-  notes?: string;
+No setup of React, Node, DB, or Telegram bots is required; everything runs as a single skill.
 
-  createdAt: Date;
-  updatedAt: Date;
-  lastContactedAt?: Date;
-  lastRepliedAt?: Date;
-}
-```
+📁 Project Structure
+text
+.
+├── spec.md        # Full skill specification: problem, rubric, workflow, outputs
+└── README.md      # High-level overview (this file)
+If you later add implementation files (prompt, examples, etc.), you can extend this tree, but spec.md stays the canonical design doc.
 
-```ts
-Campaign {
-  id: string;
-  name: string;
-  channel: 'TELEGRAM';
-  type: 'BROADCAST' | 'SEQUENCE_2_STEP';
+⚙️ How to Use (Conceptual)
+Open the skill in Claude Projects / Custom GPT.
 
-  segmentFilter: any;
-  step1Template: string;
-  step2Template?: string;
+Paste your campaign brief when prompted.
 
-  sendWindowStart: string;
-  sendWindowEnd: string;
-  dailyLimit: number;
+Answer 3 clarifying questions (goal, tone, hard filters).
 
-  status: 'DRAFT' | 'RUNNING' | 'PAUSED' | 'COMPLETED';
-  createdAt: Date;
-}
-```
+Optionally provide a few “must‑include” leads.
 
-```ts
-Message {
-  id: string;
-  leadId: string;
-  campaignId?: string;
-  channel: 'TELEGRAM';
-  direction: 'OUTBOUND' | 'INBOUND';
-  content: string;
-  sentAt: Date;
-  telegramMessageId?: string;
-}
-```
+Run the skill and review the Markdown report:
 
-```ts
-ResearchTask {
-  id: string;
-  name: string;
-  description: string;
-  status: 'RUNNING' | 'DONE';
-  createdAt: Date;
-}
-```
+Pick Tier A/B leads you like.
+
+Copy Telegram DMs, edit if needed, and send.
+
+Implementation details (clarifying questions, scoring rubric, DM rules, edge cases) are all defined in spec.md so devs or prompt‑engineers can follow exactly.
+
+🔮 Future Directions (High Level)
+Add multi‑channel drafting (X / LinkedIn / email) on top of the same lead scoring.
+
+Allow saving previous runs into a lightweight lead history.
+
+Plug into automation tools/bots to actually send messages once the skill is stable.
+
+For all behavior, constraints, and acceptance criteria, see spec.md.
