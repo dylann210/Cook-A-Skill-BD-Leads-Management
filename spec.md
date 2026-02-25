@@ -144,13 +144,27 @@ If any question is unanswered → stop and re‑ask; do not continue.
 | Dimension | Range | Basis |
 |---|---|---|
 | **Relevance** | 0–10 | Overlap between their topics and `key_topics` + ICP |
-| **Influence** | 0–10 | Follower hints / role prominence (coarse brackets) |
+| **Influence** | 0–10 | Follower brackets (see table below) |
 | **Fit** | 0–10 | Voice/tone alignment with `campaign_tone` + goal |
+
+**Influence Score Brackets:**
+
+| Estimated Followers / Reach | Score |
+|---|---|
+| > 500K | 10 |
+| 100K – 500K | 8–9 |
+| 50K – 100K | 6–7 |
+| 10K – 50K | 4–5 |
+| 1K – 10K | 2–3 |
+| < 1K or Unknown | 1 |
+
+> Role prominence (e.g., confirmed VC partner, protocol co‑founder, known CT figure) → apply **+1 adjustment** to bracket score, max 10.
+> If no follower data is available, use role prominence alone and mark as `Influence: estimated`.
 
 Tier mapping:
 
-- Tier A: 23–30 → priority.  
-- Tier B: 16–22 → secondary.  
+- Tier A: 23–30 → priority.
+- Tier B: 16–22 → secondary.
 - Tier C: ≤15 → low priority.
 
 Each dimension must include a short explanation referencing visible signals (e.g., “Weekly Polymarket threads”, “newsletter on prediction markets”).
@@ -175,8 +189,8 @@ For **Tier A & B** leads:
 
 - Guardrails:
 
-  - No invented evidence (“I loved your post about X” if no such post).  
-  - Keep messages short (2–4 sentences).  
+  - No invented evidence (“I loved your post about X” if no such post).
+  - Keep messages short (2–4 sentences). **Hard limit: ≤ 300 characters total.** Telegram DMs beyond this length have significantly lower read rates; trim aggressively if needed.
   - If signals are weak → label `[GENERIC — manual edit recommended]`.
 
 Tier C: no DM generated (only noted in table as “skip / nurture later”).
@@ -235,8 +249,96 @@ Grouped by tier:
 
 ## 11) MVP Success Criteria
 
-- With only a campaign brief, the skill:  
-  - Finds at least 10–20 meaningful leads for a focused niche.  
-  - Assigns reasonable A/B/C tiers with clear explanation.  
-  - Produces Telegram‑ready DM drafts for all A/B leads.  
+- With only a campaign brief, the skill:
+  - Finds at least 10–20 meaningful leads for a focused niche.
+  - Assigns reasonable A/B/C tiers with clear explanation.
+  - Produces Telegram‑ready DM drafts for all A/B leads. Each DM ≤ 300 characters.
 - All personalization is based on real, discoverable content; no hallucinated references.
+
+### 11.1 Pre‑Demo: web_search Discovery Validation (Day 2 gate)
+
+`web_search` is the core engine of this skill — if it can't return usable profiles, nothing else works. Before the demo, run a **discovery smoke test** across at least 3 different niches:
+
+| Test Niche | Sample Query | Pass Condition |
+|---|---|---|
+| Crypto KOLs | `"Polymarket prediction market influencer crypto Twitter"` | ≥ 5 scoreable profiles returned |
+| DeFi builders | `"DeFi protocol founder newsletter prediction markets"` | ≥ 5 scoreable profiles returned |
+| Alternative niche (your choice) | e.g., `"AI agent developer crypto opinion"` | ≥ 5 scoreable profiles returned |
+
+If any niche returns < 5 scoreable results → flag immediately and adjust search query construction logic before demo day.
+
+***
+
+## 12) Full Sample Output
+
+Below is a complete example of what the skill produces from a single campaign brief. Use this as a reference when evaluating output quality.
+
+---
+
+**Campaign brief used:**
+> Product: PredictDAO — prediction market aggregator. Target: crypto KOLs who write about Polymarket or prediction markets. Goal: get 5–10 people to try the beta and post a short take. Tone: founder-to-founder, casual.
+
+---
+
+### 12.1 Executive Summary
+
+**Campaign:** PredictDAO Beta Outreach
+**Goal:** Beta testers who will post a take
+**ICP:** Crypto KOLs interested in prediction markets
+**Tone:** Founder-to-founder, casual
+**Topics:** Polymarket, prediction markets, crypto opinion
+
+**Lead stats:** 18 total discovered · 4 Tier A · 7 Tier B · 7 Tier C
+**Language skew:** 80% EN, 20% mixed EN/VN
+
+**Key insights:**
+- Most Polymarket KOLs lean degen and prefer casual, data-driven communication.
+- VN-language accounts have lower follower counts but higher engagement ratios — worth targeting for regional growth.
+- Several Tier B leads post infrequently but have niche authority; could be upgraded if engagement data is confirmed.
+- No obvious spam/shill accounts detected in top results.
+
+---
+
+### 12.2 Lead Scorecard
+
+| Name / Handle | Tier | Score (R/I/F) | Topics | Tone & Personality | Notes |
+|---|---|---|---|---|---|
+| @alice_kol | 🟢 A | 27 (9/9/9) | Polymarket, prediction markets, CT takes | Casual, data-driven | Weekly PM threads; 120K followers |
+| @bob_defi | 🟢 A | 24 (8/8/8) | DeFi, Polymarket, market structure | Serious but accessible | Newsletter with 40K subscribers |
+| @carol_trader | 🟡 B | 20 (8/6/6) | Crypto trading, some prediction markets | Degen, opinionated | 12K followers; mentioned PM twice |
+| @dave_research | 🟡 B | 17 (7/5/5) | Research, macro, occasional PM | Academic tone | Low followers but cited by larger accounts |
+| @eve_anon | 🔴 C | 12 (5/4/3) | Meme coins, general crypto | Meme-heavy | Mostly off-topic; skip |
+
+---
+
+### 12.3 Telegram DM Drafts
+
+#### Tier A
+
+**@alice_kol**
+> Hey Alice — love how you break down Polymarket odds vs. CT sentiment. Building an aggregator that surfaces that gap automatically. Would you be open to trying the beta and sharing a quick take?
+
+*(~230 chars · Personalization: PM threads + data-driven angle)*
+
+---
+
+**@bob_defi**
+> Hey Bob — your newsletter take on market structure in prediction markets was sharp. We're building PredictDAO to surface those inefficiencies. Would love your beta feedback — open to a quick look?
+
+*(~240 chars · Personalization: newsletter, market structure angle)*
+
+---
+
+#### Tier B
+
+**@carol_trader**
+> Hey Carol — saw you mentioned Polymarket a couple times. We're running a beta for a PM aggregator and looking for sharp traders to stress-test it. Interested?
+
+*(~190 chars · Personalization: PM mentions + trader framing)*
+
+---
+
+**@dave_research** `[GENERIC — manual edit recommended]`
+> Hey Dave — your research on macro and prediction markets caught our eye. We're building PredictDAO and would love a researcher's perspective on the beta. Open to a look?
+
+*(~205 chars · Signals thin — verify content before sending)*
