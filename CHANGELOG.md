@@ -6,6 +6,36 @@ Format: `[version] YYYY-MM-DD — description`
 
 ---
 
+## [1.3.0] 2026-02-25
+
+### Added — Response to competition feedback
+
+**`skill-card.md` (new — Critical deliverable):**
+- Created required Skill Card with 7 sections: Tên Skill, Việc gì được automate, TRƯỚC (manual process table with time estimates), SAU (with-skill table + time savings), Tool/AI đã dùng, Limitation (6 items with workarounds), Roadmap mở rộng (Phase 2–5).
+- Added Pre-Demo Checklist with 5-step checklist and all-in-one demo brief template.
+- Quantified time savings: "~3 hours manual → ~15–25 minutes with skill".
+
+**`ai-showcase/` (new folder — Critical deliverable):**
+- `README.md`: folder overview and screenshot guide for live demo.
+- `01-cook-spec-prompt.md`: prompt used to design initial spec; explains why constraints-first approach matters.
+- `02-scoring-rubric-prompt.md`: prompt used to iterate scoring rubric from vague to bracket-specific; key insight on scoring consistency.
+- `03-skill-md-prompt.md`: prompt used to rewrite skill.md; explains spec vs skill distinction.
+- `04-edge-case-stress-test.md`: stress-test prompts that found 4 gaps (all-Tier-C, fabrication risk, estimated scores, smoke test).
+
+**`SKILL.md` (renamed from `skill.md`):**
+- Renamed to `SKILL.md` (uppercase) per Claude Skill convention.
+- Added **Global Rules** section at the top (5 rules always enforced: no fabrication, ≤300 chars, cite source, no auto-send, flag uncertainty).
+- Added **Demo/fast-start tip** in Step 2: if brief already contains answers to 3 clarifying questions, skip the gate and proceed directly.
+- Added **Multi-language DMs** section in Step 5: Vietnamese DM instruction, `[VI]` tag, example format.
+- Added **Output Quality Checklist** at end: 3 categories (DM quality, Scoring quality, Report completeness), 10 checkboxes.
+- Added **Quick-Start Example** at end: all-in-one input format + expected output structure.
+
+**`readme.md`:**
+- Updated Project Structure tree to include all 6 files and `ai-showcase/` folder.
+- Added distinction note: "SKILL.md is what Claude reads at runtime; skill-card.md is for stakeholders."
+
+---
+
 ## [1.2.0] 2026-02-25
 
 ### Changed — `spec.md` + `skill.md` (scoring rubric push)

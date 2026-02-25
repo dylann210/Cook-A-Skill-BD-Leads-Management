@@ -52,11 +52,20 @@ No setup of React, Node, DB, or Telegram bots is required; everything runs as a 
 
 ```text
 .
-├── spec.md        # Full skill specification: problem, rubric, workflow, outputs
-└── README.md      # High-level overview (this file)
+├── SKILL.md              # Claude Skill instruction file — runtime instructions for the AI
+├── skill-card.md         # Skill Card: Before/After, tools used, limitations, roadmap
+├── spec.md               # Full product spec: problem, rubric, workflow, outputs
+├── CHANGELOG.md          # Version history of all spec and skill updates
+├── ai-showcase/          # Key prompts and AI interactions used to build the skill
+│   ├── README.md
+│   ├── 01-cook-spec-prompt.md
+│   ├── 02-scoring-rubric-prompt.md
+│   ├── 03-skill-md-prompt.md
+│   └── 04-edge-case-stress-test.md
+└── readme.md             # High-level overview (this file)
 ```
 
-If you later add implementation files (prompt, examples, etc.), you can extend this tree, but `spec.md` stays the canonical design doc.
+`spec.md` is the canonical product design doc. `SKILL.md` is what Claude reads at runtime. `skill-card.md` is the human-readable summary for stakeholders.
 
 ***
 
