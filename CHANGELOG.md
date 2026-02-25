@@ -6,6 +6,30 @@ Format: `[version] YYYY-MM-DD — description`
 
 ---
 
+## [1.1.1] 2026-02-25
+
+### Rewritten — `skill.md`
+
+Complete rewrite of the Claude Skill instruction file to align with `spec.md` v1.1.0.
+
+**Removed (were out of scope per spec):**
+- Outer ` ```markdown ``` ` wrapper — file is now clean Markdown.
+- References to `database.py`, `web_scraper.py`, `main.py` — spec explicitly excludes persistent storage and custom code.
+- Telegram Bot API / Telethon integration — the skill is a Claude Skill, not a bot.
+- `/send_message` and `/sync_sheet` slash commands — out of scope.
+- Google Sheets sync — out of scope.
+
+**Added / Aligned:**
+- 6-step linear flow matching spec: Parse Brief → Clarifying Questions → Discover → Score → Draft → Report.
+- Scoring rubric updated to spec v1.1.0 brackets (Relevance, Influence with 6-level follower table, Fit).
+- Role prominence +1 adjustment rule for Influence score.
+- Hard ≤ 300-character limit on all DMs with trimming instruction.
+- Edge cases table (too few leads, no follower data, conflicts, language mismatch, DM over limit).
+- Explicit "What This Skill Does NOT Do" section to prevent scope creep.
+- DM draft output format with character count annotation and `[GENERIC]` label pattern.
+
+---
+
 ## [1.1.0] 2026-02-25
 
 ### Changed — `spec.md`
